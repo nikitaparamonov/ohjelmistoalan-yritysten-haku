@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/ohjelmistoalan-yritysten-haku/static/css/main.e6c13ad2.css",
+    "main.js": "/ohjelmistoalan-yritysten-haku/static/js/main.6e2e32c9.js",
+    "static/js/453.117b0875.chunk.js": "/ohjelmistoalan-yritysten-haku/static/js/453.117b0875.chunk.js",
+    "index.html": "/ohjelmistoalan-yritysten-haku/index.html",
+    "main.e6c13ad2.css.map": "/ohjelmistoalan-yritysten-haku/static/css/main.e6c13ad2.css.map",
+    "main.6e2e32c9.js.map": "/ohjelmistoalan-yritysten-haku/static/js/main.6e2e32c9.js.map",
+    "453.117b0875.chunk.js.map": "/ohjelmistoalan-yritysten-haku/static/js/453.117b0875.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.e6c13ad2.css",
+    "static/js/main.6e2e32c9.js"
+  ]
+}

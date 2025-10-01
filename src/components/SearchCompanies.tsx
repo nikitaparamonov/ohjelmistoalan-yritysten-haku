@@ -11,6 +11,11 @@ type Company = {
 	}[]
 }
 
+const getCityName = (company: Company): string => {
+	const city = company.addresses?.[0]?.postOffices?.[0]?.city
+	return city || 'Ei osoitetta'
+}
+
 const SearchCompanies: React.FC = () => {
 	const [city, setCity] = useState('')
 	const [companies, setCompanies] = useState<Company[]>([])
@@ -24,9 +29,12 @@ const SearchCompanies: React.FC = () => {
 		if (!city.trim()) return
 		setLoading(true)
 		try {
-			const response = await axios.get(`https://ohjelmistoalan-yritysten-haku-backend-1.onrender.com/api/companies`, {
-				params: { city, page },
-			})
+			const response = await axios.get(
+				`https://ohjelmistoalan-yritysten-haku-backend-1.onrender.com/api/companies`,
+				{
+					params: { city, page },
+				},
+			)
 			setCompanies(response.data.companies)
 			setTotal(response.data.total)
 		} catch (error) {
@@ -73,8 +81,7 @@ const SearchCompanies: React.FC = () => {
 					<ul>
 						{companies.map((company) => (
 							<li key={company._id}>
-								{company.names?.[0]?.name ?? 'Nimetön yritys'} –{' '}
-								{company.addresses?.[0]?.postOffices?.[0]?.city}
+								{company.names?.[0]?.name ?? 'Nimetön yritys'} – {getCityName(company)}
 							</li>
 						))}
 					</ul>

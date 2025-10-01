@@ -23,6 +23,7 @@ const SearchCompanies: React.FC = () => {
 	const [page, setPage] = useState(1)
 	const [total, setTotal] = useState(0)
 	const [searchTerm, setSearchTerm] = useState('')
+	const [hasSearched, setHasSearched] = useState(false)
 
 	const pageSize = 10
 
@@ -49,11 +50,14 @@ const SearchCompanies: React.FC = () => {
 		setTotal(0)
 		setPage(1)
 		setCity('')
+		setSearchTerm('')
+		setHasSearched(false)
 	}
 
 	const handleSearch = () => {
 		setSearchTerm(city)
 		setPage(1)
+		setHasSearched(true)
 		fetchCompanies(city, 1)
 	}
 
@@ -61,7 +65,7 @@ const SearchCompanies: React.FC = () => {
 		if (searchTerm.trim()) {
 			fetchCompanies(searchTerm, page)
 		}
-	// eslint-disable-next-line react-hooks/exhaustive-deps
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [page])
 
 	const totalPages = Math.ceil(total / pageSize)
@@ -110,7 +114,9 @@ const SearchCompanies: React.FC = () => {
 				</>
 			)}
 
-			{!loading && companies.length === 0 && city && <p>Yrityksiä ei löytynyt kaupungista "{city}"</p>}
+			{!loading && companies.length === 0 && hasSearched && (
+				<p>Yrityksiä ei löytynyt kaupungista "{searchTerm}"</p>
+			)}
 		</div>
 	)
 }

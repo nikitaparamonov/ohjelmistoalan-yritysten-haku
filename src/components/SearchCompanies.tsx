@@ -22,17 +22,18 @@ const SearchCompanies: React.FC = () => {
 	const [loading, setLoading] = useState(false)
 	const [page, setPage] = useState(1)
 	const [total, setTotal] = useState(0)
+	const [searchTerm, setSearchTerm] = useState('')
 
 	const pageSize = 10
 
-	const fetchCompanies = async () => {
-		if (!city.trim()) return
+	const fetchCompanies = async (term: string = searchTerm, currentPage: number = page) => {
+		if (!term.trim()) return
 		setLoading(true)
 		try {
 			const response = await axios.get(
-				`https://ohjelmistoalan-yritysten-haku-backend-1.onrender.com/api/companies`,
+				'https://ohjelmistoalan-yritysten-haku-backend-1.onrender.com/api/companies',
 				{
-					params: { city, page },
+					params: { city: term, page: currentPage },
 				},
 			)
 			setCompanies(response.data.companies)
@@ -50,11 +51,17 @@ const SearchCompanies: React.FC = () => {
 		setCity('')
 	}
 
+	const handleSearch = () => {
+		setSearchTerm(city)
+		setPage(1)
+		fetchCompanies(city, 1)
+	}
+
 	useEffect(() => {
-		if (city.trim()) {
-			fetchCompanies()
+		if (searchTerm.trim()) {
+			fetchCompanies(searchTerm, page)
 		}
-		// eslint-disable-next-line react-hooks/exhaustive-deps
+	// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [page])
 
 	const totalPages = Math.ceil(total / pageSize)
@@ -70,7 +77,7 @@ const SearchCompanies: React.FC = () => {
 					value={city}
 					onChange={(e) => setCity(e.target.value)}
 				/>
-				<button onClick={fetchCompanies}>🔍</button>
+				<button onClick={handleSearch}>🔍</button>
 				<button onClick={clearResults}>❌</button>
 			</div>
 

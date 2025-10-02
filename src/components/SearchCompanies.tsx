@@ -9,12 +9,8 @@ type Company = {
 		street: string
 		postCode: string
 		postOffices: { city: string }[]
+		buildingNumber: string
 	}[]
-}
-
-const getCityName = (company: Company): string => {
-	const city = company.addresses?.[0]?.postOffices?.[0]?.city
-	return city || 'Ei osoitetta'
 }
 
 const SearchCompanies: React.FC = () => {
@@ -97,29 +93,21 @@ const SearchCompanies: React.FC = () => {
 
 		return (
 			<div className="pagination">
-				<button
-					onClick={() => setPage((p) => Math.max(1, p - 1))}
-					disabled={page === 1}
-				>
+				<button onClick={() => setPage((p) => Math.max(1, p - 1))} disabled={page === 1}>
 					←
 				</button>
 				{pages.map((p, i) =>
 					p === '...' ? (
-						<span key={i} className="pagination-dots">…</span>
+						<span key={i} className="pagination-dots">
+							…
+						</span>
 					) : (
-						<button
-							key={i}
-							onClick={() => setPage(Number(p))}
-							className={page === p ? 'active' : ''}
-						>
+						<button key={i} onClick={() => setPage(Number(p))} className={page === p ? 'active' : ''}>
 							{p}
 						</button>
 					),
 				)}
-				<button
-					onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
-					disabled={page === totalPages}
-				>
+				<button onClick={() => setPage((p) => Math.min(totalPages, p + 1))} disabled={page === totalPages}>
 					→
 				</button>
 			</div>
@@ -145,13 +133,38 @@ const SearchCompanies: React.FC = () => {
 
 			{!loading && companies.length > 0 && (
 				<>
-					<ul>
-						{companies.map((company) => (
-							<li key={company._id}>
-								{company.names?.[0]?.name ?? 'Nimetön yritys'} – {getCityName(company)}
-							</li>
-						))}
-					</ul>
+					<div className="company-list">
+						{companies.map((company) => {
+							const name = company.names?.[0]?.name ?? 'Nimetön yritys'
+							const address = company.addresses?.[0]
+							const street = address?.street ?? ''
+							const number = address?.buildingNumber ?? ''
+							const city = address?.postOffices?.[0]?.city ?? ''
+							const fullAddress = `${street} ${number}, ${city}`.trim()
+							const mapsLink = fullAddress
+								? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(fullAddress)}`
+								: null
+
+							return (
+								<div key={company._id} className="company-card">
+									<div className="company-info">
+										<h2>{name}</h2>
+										<p className="company-address">{fullAddress || 'Ei osoitetta'}</p>
+									</div>
+									{mapsLink && (
+										<a
+											href={mapsLink}
+											target="_blank"
+											rel="noopener noreferrer"
+											className="maps-link"
+										>
+											🗺️ Kartalla
+										</a>
+									)}
+								</div>
+							)
+						})}
+					</div>
 
 					{renderPagination()}
 				</>

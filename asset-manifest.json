@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/ohjelmistoalan-yritysten-haku/static/css/main.6dae1ddf.css",
-    "main.js": "/ohjelmistoalan-yritysten-haku/static/js/main.80428d92.js",
+    "main.css": "/ohjelmistoalan-yritysten-haku/static/css/main.a81fa8ae.css",
+    "main.js": "/ohjelmistoalan-yritysten-haku/static/js/main.e99132d0.js",
     "static/js/453.117b0875.chunk.js": "/ohjelmistoalan-yritysten-haku/static/js/453.117b0875.chunk.js",
     "index.html": "/ohjelmistoalan-yritysten-haku/index.html",
-    "main.6dae1ddf.css.map": "/ohjelmistoalan-yritysten-haku/static/css/main.6dae1ddf.css.map",
-    "main.80428d92.js.map": "/ohjelmistoalan-yritysten-haku/static/js/main.80428d92.js.map",
+    "main.a81fa8ae.css.map": "/ohjelmistoalan-yritysten-haku/static/css/main.a81fa8ae.css.map",
+    "main.e99132d0.js.map": "/ohjelmistoalan-yritysten-haku/static/js/main.e99132d0.js.map",
     "453.117b0875.chunk.js.map": "/ohjelmistoalan-yritysten-haku/static/js/453.117b0875.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.6dae1ddf.css",
-    "static/js/main.80428d92.js"
+    "static/css/main.a81fa8ae.css",
+    "static/js/main.e99132d0.js"
   ]
 }

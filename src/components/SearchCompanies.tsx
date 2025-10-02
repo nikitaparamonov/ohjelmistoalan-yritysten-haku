@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
+import './SearchCompanies.css'
 
 type Company = {
 	_id: string
@@ -70,11 +71,66 @@ const SearchCompanies: React.FC = () => {
 
 	const totalPages = Math.ceil(total / pageSize)
 
+	const renderPagination = () => {
+		if (totalPages <= 1) return null
+
+		const pages: (number | string)[] = []
+
+		if (totalPages <= 7) {
+			for (let i = 1; i <= totalPages; i++) pages.push(i)
+		} else {
+			pages.push(1)
+
+			if (page > 3) pages.push('...')
+
+			const start = Math.max(2, page - 1)
+			const end = Math.min(totalPages - 1, page + 1)
+
+			for (let i = start; i <= end; i++) {
+				pages.push(i)
+			}
+
+			if (page < totalPages - 2) pages.push('...')
+
+			pages.push(totalPages)
+		}
+
+		return (
+			<div className="pagination">
+				<button
+					onClick={() => setPage((p) => Math.max(1, p - 1))}
+					disabled={page === 1}
+				>
+					←
+				</button>
+				{pages.map((p, i) =>
+					p === '...' ? (
+						<span key={i} className="pagination-dots">…</span>
+					) : (
+						<button
+							key={i}
+							onClick={() => setPage(Number(p))}
+							className={page === p ? 'active' : ''}
+						>
+							{p}
+						</button>
+					),
+				)}
+				<button
+					onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
+					disabled={page === totalPages}
+				>
+					→
+				</button>
+			</div>
+		)
+	}
+
 	return (
-		<div style={{ padding: '2rem' }}>
+		<div className="container">
 			<h1>Etsi yrityksiä kaupungin perusteella</h1>
 
-			<div style={{ display: 'flex', gap: '1rem', marginBottom: '1rem' }}>
+			<div className="search-bar">
 				<input
 					type="text"
 					placeholder="Syötä kaupungin nimi"
@@ -97,20 +153,7 @@ const SearchCompanies: React.FC = () => {
 						))}
 					</ul>
 
-					<div style={{ marginTop: '1rem' }}>
-						{Array.from({ length: totalPages }, (_, i) => (
-							<button
-								key={i}
-								onClick={() => setPage(i + 1)}
-								style={{
-									marginRight: '0.5rem',
-									fontWeight: page === i + 1 ? 'bold' : 'normal',
-								}}
-							>
-								{i + 1}
-							</button>
-						))}
-					</div>
+					{renderPagination()}
 				</>
 			)}
 
